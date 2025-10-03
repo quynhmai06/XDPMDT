@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Second-hand EV & Battery Trading Platform</title>
-  <!-- Đường dẫn tĩnh tới static -->
   <link rel="stylesheet" href="/static/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 </head>
@@ -16,12 +15,28 @@
         <img src="/static/images/logo.png" alt="EV Trading" class="logo"/>
       </div>
       <div class="user-menu">
-        <a href="/policy" class="user-menu-item"><i class=""></i>Chính sách</a>
+        <a href="/policy" class="user-menu-item">Chính sách</a>
         <a href="#" class="user-menu-item"><i class="far fa-comment"></i> Chat</a>
         <a href="#" class="user-menu-item"><i class="far fa-bell"></i> Thông báo</a>
-        <a href="{{ url_for('login_bp.login') }}" class="user-menu-item">Đăng nhập</a>
-        <a href="{{ url_for('register_bp.register') }}" class="user-menu-item">Đăng ký</a>
-        <a href="/add" class="post-button">Đăng tin</a>
+
+        {% if session.get('user_id') %}
+          <div class="user-avatar-wrap">
+            <button class="avatar-btn" onclick="toggleUserMenu(event)">
+              <span class="avatar-circle">
+                {{ (session.get('username') or 'U')[:1] | upper }}
+              </span>
+            </button>
+            <div id="userDropdown" class="user-dropdown" style="display:none">
+              <div class="dropdown-name">{{ session.get('username') }}</div>
+              <a href="#" class="dropdown-item">Hồ sơ</a>
+              <a href="{{ url_for('logout') }}" class="dropdown-item">Đăng xuất</a>
+            </div>
+          </div>
+          <a href="/add" class="post-button">Đăng tin</a>
+        {% else %}
+          <a href="{{ url_for('login_bp.login') }}" class="user-menu-item">Đăng nhập</a>
+          <a href="{{ url_for('register_bp.register') }}" class="user-menu-item">Đăng ký</a>
+        {% endif %}
       </div>
     </div>
   </header>
@@ -128,6 +143,17 @@
       showTab("login");
       document.getElementById("authModal").style.display = "block";
     }
+    function toggleUserMenu(e){
+      e.preventDefault();
+      const dd = document.getElementById('userDropdown');
+      dd.style.display = (!dd.style.display || dd.style.display === 'none') ? 'block' : 'none';
+    }
+    document.addEventListener('click', function(ev){
+      const wrap = document.querySelector('.user-avatar-wrap');
+      const dd = document.getElementById('userDropdown');
+      if (!wrap || !dd) return;
+      if (!wrap.contains(ev.target)) dd.style.display = 'none';
+    });
   </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, session, flash
 from models import db
 from register import register_bp
 from login import login_bp
@@ -21,6 +21,13 @@ def home():
 @app.route("/admin", endpoint="admin_dashboard")
 def admin_dashboard():
     return render_template("admin.html")
+
+@app.route("/logout", endpoint="logout")
+def logout_all():
+    was_admin = session.get("is_admin")
+    session.clear()
+    flash("Đã đăng xuất!", "success")
+    return redirect(url_for("admin.admin_dashboard") if was_admin else url_for("home"))
 
 if __name__ == "__main__":
     with app.app_context():

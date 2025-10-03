@@ -1,4 +1,3 @@
-# init_db.py
 from app import app
 from models import db, User
 from werkzeug.security import generate_password_hash
@@ -7,7 +6,6 @@ with app.app_context():
     db.drop_all()
     db.create_all()
 
-    # Tạo tài khoản admin
     admin = User(
         username="admin",
         email="admin@example.com",

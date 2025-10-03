@@ -9,7 +9,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
 </head>
 <body>
-  <!-- Header tái sử dụng phong cách index -->
   <header class="header">
     <div class="header-container">
       <div class="logo-section">
@@ -27,7 +26,6 @@
   </header>
 
   <main class="container admin-container">
-    <!-- Tiêu đề + quick stats -->
     <div class="admin-heading">
       <div>
         <h1 class="page-title">Bảng điều khiển Admin</h1>
@@ -53,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Tabs + Toolbar -->
     <div class="admin-toolbar">
       <div class="tabs">
         <a class="tab active"><i class="fa-solid fa-gauge"></i> Tổng quan</a>
@@ -70,19 +67,16 @@
           <option value="">Tất cả trạng thái</option>
           <option value="pending">Chờ duyệt</option>
           <option value="approved">Đã duyệt</option>
-          <option value="blocked">Đã khóa</option>
         </select>
         <button class="btn btn-primary"><i class="fa-solid fa-arrow-rotate-right"></i> Làm mới</button>
       </div>
     </div>
 
-    <!-- Quản lý thành viên -->
     <section class="admin-card">
       <div class="section-head">
         <h2 class="section-title"><i class="fa-solid fa-users"></i> Quản lý thành viên</h2>
         <div class="section-actions">
           <button class="btn btn-outline"><i class="fa-solid fa-filter"></i> Lọc</button>
-          <button class="btn"><i class="fa-regular fa-file-lines"></i> Xuất CSV</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -93,7 +87,7 @@
               <th>Tên đăng nhập</th>
               <th>Email</th>
               <th>Quyền</th>
-              <th>Trạng thái</th> <!-- ✅ thêm cột này -->
+              <th>Trạng thái</th> 
               <th class="th-actions">Thao tác</th>
             </tr>
           </thead>
@@ -120,8 +114,11 @@
                   {% endif %}
                 </td>
                 <td class="td-actions">
-                  <button class="btn btn-ghost"><i class="fa-regular fa-pen-to-square"></i> Sửa</button>
-                  <button class="btn btn-ghost danger"><i class="fa-regular fa-trash-can"></i> Xóa</button>
+                  <a class="btn btn-ghost danger" 
+                    href="{{ url_for('admin.delete_user', user_id=user.id) }}" 
+                    onclick="return confirm('Bạn có chắc chắn muốn xóa tài khoản này?')">
+                    <i class="fa-regular fa-trash-can"></i> Xóa
+                  </a>
                 </td>
               </tr>
               {% endfor %}
@@ -133,14 +130,11 @@
       </div>
     </section>
 
-
-    <!-- Duyệt bài đăng -->
     <section class="admin-card">
       <div class="section-head">
         <h2 class="section-title"><i class="fa-solid fa-car"></i> Duyệt bài đăng</h2>
         <div class="section-actions">
           <button class="btn btn-outline"><i class="fa-solid fa-filter"></i> Lọc</button>
-          <button class="btn"><i class="fa-regular fa-file-lines"></i> Xuất CSV</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -184,13 +178,11 @@
       </div>
     </section>
 
-    <!-- Báo cáo giao dịch -->
     <section class="admin-card">
       <div class="section-head">
         <h2 class="section-title"><i class="fa-solid fa-receipt"></i> Báo cáo giao dịch</h2>
         <div class="section-actions">
           <button class="btn btn-outline"><i class="fa-solid fa-filter"></i> Lọc</button>
-          <button class="btn"><i class="fa-regular fa-file-lines"></i> Xuất CSV</button>
         </div>
       </div>
       <div class="table-wrap">
@@ -227,7 +219,6 @@
       </div>
     </section>
   </main>
-  <!-- Modal Đăng nhập Admin -->
   <div id="adminLoginModal" class="modal" style="display:none;">
     <div class="modal-content" style="max-width:420px;margin:auto;">
       <span class="close" onclick="closeAdminLogin()">&times;</span>
@@ -259,14 +250,11 @@
   <script>
     function openAdminLogin(e){ if(e) e.preventDefault(); document.getElementById('adminLoginModal').style.display='block'; }
     function closeAdminLogin(){ document.getElementById('adminLoginModal').style.display='none'; }
-    // đóng khi click ra ngoài
     window.addEventListener('click', function(ev){
       const m = document.getElementById('adminLoginModal');
       if (ev.target === m) m.style.display = 'none';
     });
   </script>
-
-  <!-- CSS tối giản cho modal (nếu style.css chưa có) -->
   <style>
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:1000;display:none}
     .modal-content{background:#fff;border-radius:14px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.15)}
